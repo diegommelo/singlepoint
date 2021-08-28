@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <Logo class="logo" />
     <form>
       <div class="form-group">
         <label for="login-username">Usuário</label>
@@ -15,6 +16,8 @@
 </template>
 
 <script>
+import Logo from '../components/Logo.vue'
+
 export default {
   name: "Login",
   data() {
@@ -24,6 +27,9 @@ export default {
         password: "",
       },
     };
+  },
+  components: {
+    Logo,
   },
   methods: {
     login() {
@@ -50,5 +56,15 @@ export default {
 }
 .form-group button {
   margin-top: 15px;
+}
+.logo {
+  margin-bottom: 5vh;
+  width: 70vw;
+}
+
+@media screen and (min-width: 576px) {
+  .logo {
+    width: 20vw;
+  }
 }
 </style>

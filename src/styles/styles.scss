@@ -8,10 +8,13 @@ $primary-color: #1e40af;
   border-radius: 4px;
   cursor: pointer;
 }
-
 .input {
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 10px;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
 }
