@@ -1,6 +1,5 @@
 <template>
-  <div class="login-container">
-    <Logo class="logo" />
+  <div class="container login-container">
     <form>
       <div class="login-form-group">
         <label for="login-username">Usuário</label>
@@ -20,7 +19,6 @@
 </template>
 
 <script>
-import Logo from '../components/Logo.vue'
 
 export default {
   name: "Login",
@@ -32,9 +30,6 @@ export default {
       },
     };
   },
-  components: {
-    Logo,
-  },
   methods: {
     login() {
       // this.$store.dispatch("login", this.form);
@@ -45,15 +40,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.login-container {
-  margin-top: 40px;
-}
+  .login-container {
+    width: 80vw;
+  }
 .login-form-group {
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 60vw;
   background-color:white;
   padding: 20px;
   border-radius: 5px;
@@ -64,35 +57,22 @@ export default {
 .login-form-footer {
   margin-top: 30px;
 }
-.logo {
-  margin-bottom: 4vh;
-  width: 55vw;
-}
 
 @media screen and (min-width: 768px) {
-  .login-form-group {
-    width: 40vw;
-  }
-  .logo {
-    width: 30vw;
+  .login-container {
+    width: 50vw;
   }
 }
 
 @media screen and (min-width: 992px) {
-  .login-form-group {
-    width: 32vw;
-  }
-  .logo {
-    width: 15vw;
+  .login-container {
+    width: 30vw;
   }
 }
 
 @media screen and (min-width: 1200px) {
-  .login-form-group {
-    width: 26vw;
+  .login-container {
+    width: 20vw;
   }
-  .logo {
-    width: 18vw;
-  }  
 }
 </style>

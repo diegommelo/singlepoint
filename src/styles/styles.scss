@@ -5,11 +5,15 @@ html {
   background-color: $background-color;
 }
 label {
+  display: block;
   margin-bottom: 5px;
 }
 a {
   color: $primary-color;
   text-decoration: none;
+}
+.container {
+  margin: 0 auto;
 }
 .is-primary {
   background-color: $primary-color;

@@ -2,16 +2,22 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Login</router-link> |
-      <router-link to="/register">Cadastre-se</router-link>
+      <router-link to="/register">Cadastro</router-link>
     </div>
+    <Logo />
     <router-view />
   </div>
 </template>
 
 <script>
 import "@/styles/styles.scss";
+import Logo from "@/components/Logo";
 
 export default {
+  name: "App",
+  components: {
+    Logo
+  }
 }
 
 </script>
