@@ -14,7 +14,7 @@
     </form>
     <div class="login-form-footer">
       <p><a href="#">Esqueceu a senha?</a></p>
-      <p>Ainda não tem uma conta? <router-link to="/register">Registre-se</router-link></p>
+      <p>Ainda não tem uma conta? <router-link to="/register">Cadastre-se</router-link></p>
     </div>
   </div>
 </template>
@@ -91,5 +91,8 @@ export default {
   .login-form-group {
     width: 26vw;
   }
+  .logo {
+    width: 18vw;
+  }  
 }
 </style>
