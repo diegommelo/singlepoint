@@ -16,27 +16,32 @@
         </div>
         <div class="register-form-group-item">
           <label for="register-username">Nome de usuário</label>
-          <input type="text" class="input" id="register-username">
+          <input type="text" class="input" id="register-username" v-model="$v.form.username.$model">
+          <Error :validation="$v.form.username.required" v-if="$v.form.username.$dirty">Campo obrigatório</Error>
+          <Error :validation="$v.form.username.minLength">Nome de usuário precisa ter pelo menos {{$v.form.username.$params.minLength.min}} caracteres</Error>          
         </div>
         <div class="register-form-group-item">
-          <label for="register-email">Email</label>
-          <input type="email" class="input" id="register-email">
+          <label for="register-email">E-mail</label>
+          <input type="email" class="input" id="register-email" v-model="$v.form.email.$model">
+          <Error :validation="$v.form.email.required" v-if="$v.form.email.$dirty">Campo obrigatório</Error>
+          <Error :validation="$v.form.email.email" v-if="$v.form.email.$dirty">E-mail inválido</Error>
         </div>
         <div class="register-form-group-item">
           <label for="register-cpf">CPF</label>
-          <input type="text" class="input" id="register-cpf">
+          <input type="text" class="input" id="register-cpf" v-model="$v.form.cpf.$model" v-mask="['###.###.###-##']" />
+          <Error :validation="$v.form.cpf.required" v-if="$v.form.cpf.$dirty">Campo obrigatório</Error>
         </div>
         <div class="register-form-group-item">
           <label for="register-phone">Telefone</label>
-          <input type="text" class="input" id="register-phone">
+          <input type="text" class="input" id="register-phone" />
         </div>
         <div class="register-form-group-item">
           <label for="register-password">Senha</label>
-          <input type="password" class="input" id="register-password">
+          <input type="password" class="input" id="register-password" />
         </div>
         <div class="register-form-group-item">
           <label for="register-password-confirm">Confirmar senha</label>
-          <input type="password" class="input" id="register-password-confirm">
+          <input type="password" class="input" id="register-password-confirm" />
         </div>
       </div>
         <button type="submit" class="button is-primary">Criar Conta</button>
@@ -47,6 +52,7 @@
 <script>
 import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 import Error from '@/components/Error.vue'
+import {mask} from 'vue-the-mask'
 
 export default {
   name: 'Register',
@@ -63,6 +69,9 @@ export default {
         password_confirm: ""
       }
     }
+  },
+  directives: {
+    mask
   },
   components: {
     Error
@@ -81,7 +90,7 @@ export default {
       },
       username: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(2),
         maxLength: maxLength(50),
       },
       email: {
