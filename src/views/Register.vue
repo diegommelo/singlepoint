@@ -30,18 +30,23 @@
           <label for="register-cpf">CPF</label>
           <input type="text" class="input" id="register-cpf" v-model="$v.form.cpf.$model" v-mask="['###.###.###-##']" />
           <Error :validation="$v.form.cpf.required" v-if="$v.form.cpf.$dirty">Campo obrigatório</Error>
+          <Error :validation="$v.form.cpf.minLength">CPF Inválido</Error>
         </div>
         <div class="register-form-group-item">
           <label for="register-phone">Telefone</label>
-          <input type="text" class="input" id="register-phone" />
+          <input type="text" class="input" id="register-phone" v-model="$v.form.phone.$model" v-mask="['(##) #####-####']" />
+          <Error :validation="$v.form.phone.required" v-if="$v.form.phone.$dirty">Campo Obrigatório</Error>
         </div>
         <div class="register-form-group-item">
           <label for="register-password">Senha</label>
-          <input type="password" class="input" id="register-password" />
+          <input type="password" class="input" id="register-password" v-model="$v.form.password.$model" />
+          <Error :validation="$v.form.password.required" v-if="$v.form.password.$dirty">Campo obrigatório</Error>
+          <Error :validation="$v.form.password.minLength">A senha deve ter no mínimo {{$v.form.password.$params.minLength.min}} caracteres</Error>
         </div>
         <div class="register-form-group-item">
           <label for="register-password-confirm">Confirmar senha</label>
-          <input type="password" class="input" id="register-password-confirm" />
+          <input type="password" class="input" id="register-password-confirm" v-model="$v.form.password_confirm.$model" />
+          <Error :validation="$v.form.password_confirm.sameAs">Senhas devem ser iguais</Error>
         </div>
       </div>
         <button type="submit" class="button is-primary">Criar Conta</button>
@@ -99,8 +104,8 @@ export default {
       },
       cpf: {
         required,
-        minLength: minLength(11),
-        maxLength: maxLength(11),
+        minLength: minLength(14),
+        maxLength: maxLength(14),
       },
       phone: {
         required,
