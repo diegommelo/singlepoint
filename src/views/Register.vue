@@ -1,6 +1,8 @@
 <template>
   <div class="container register-container">
-    <BaseAlert :class="alertClass" v-if="alertMessage">{{alertMessage}}</BaseAlert>
+    <transition name="fade">
+      <BaseAlert :class="alertClass" v-if="alertMessage">{{alertMessage}}</BaseAlert>
+    </transition>
     <span class="title">Cadastre-se em nossa plataforma</span>
     <form @submit.prevent="onSubmit">
       <div class="register-form-group">
