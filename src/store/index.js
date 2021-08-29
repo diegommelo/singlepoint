@@ -9,19 +9,28 @@ export default new Vuex.Store({
       id: "",
       name: "",
       username: "",
-      email: "",
       token: "",
     },
+    alerts: {
+      success: [],
+      error: [],
+    }
   },
   mutations: {
     setUser(state, user) {
       state.user = user;
     },
+    setAlerts(state, alerts) {
+      state.alerts = alerts;
+    }
   },
   actions: {
     setUser({ commit }, user) {
       commit("setUser", user);
     },
+    setAlerts({ commit }, alerts) {
+      commit("setAlerts", alerts);
+    }
   },
   modules: {},
 });

@@ -1,7 +1,8 @@
 <template>
   <div class="container register-container">
+    <BaseAlert :class="alertClass" v-if="alertMessage">{{alertMessage}}</BaseAlert>
     <span class="title">Cadastre-se em nossa plataforma</span>
-    <form>
+    <form @submit.prevent="onSubmit">
       <div class="register-form-group">
         <div class="register-form-group-item">
           <label for="register-name">Nome</label>
@@ -18,7 +19,7 @@
           <label for="register-username">Nome de usuário</label>
           <input type="text" class="input" id="register-username" v-model="$v.form.username.$model">
           <Error :validation="$v.form.username.required" v-if="$v.form.username.$dirty">Campo obrigatório</Error>
-          <Error :validation="$v.form.username.minLength">Nome de usuário precisa ter pelo menos {{$v.form.username.$params.minLength.min}} caracteres</Error>          
+          <Error :validation="$v.form.username.minLength">Nome de usuário inválido</Error>          
         </div>
         <div class="register-form-group-item">
           <label for="register-email">E-mail</label>
@@ -34,8 +35,9 @@
         </div>
         <div class="register-form-group-item">
           <label for="register-phone">Telefone</label>
-          <input type="text" class="input" id="register-phone" v-model="$v.form.phone.$model" v-mask="['(##) #####-####']" />
+          <input type="text" class="input" id="register-phone" v-model="$v.form.phone.$model" v-mask="['(##) #####-####', '(##) ####-####']" />
           <Error :validation="$v.form.phone.required" v-if="$v.form.phone.$dirty">Campo Obrigatório</Error>
+          <Error :validation="$v.form.phone.minLength">Telefone inválido</Error>
         </div>
         <div class="register-form-group-item">
           <label for="register-password">Senha</label>
@@ -45,19 +47,24 @@
         </div>
         <div class="register-form-group-item">
           <label for="register-password-confirm">Confirmar senha</label>
-          <input type="password" class="input" id="register-password-confirm" v-model="$v.form.password_confirm.$model" />
-          <Error :validation="$v.form.password_confirm.sameAs">Senhas devem ser iguais</Error>
+          <input type="password" class="input" id="register-password-confirm" v-model="$v.password_confirm.$model" />
+          <Error :validation="$v.password_confirm.sameAs" v-if="$v.password_confirm.$dirty">As senhas devem ser iguais</Error>
         </div>
       </div>
-        <button type="submit" class="button is-primary">Criar Conta</button>
+      <button type="submit" class="button is-primary">Criar Conta</button>
     </form>
+    <div class="register-form-footer">
+      <p>Ao criar uma conta, você concorda com nossos <a href="#">Termos de Uso</a> e <a href="#">Políticas de Privacidade</a></p>
+    </div>
   </div>
 </template>
 
 <script>
 import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 import Error from '@/components/Error.vue'
+import BaseAlert from '@/components/BaseAlert.vue'
 import {mask} from 'vue-the-mask'
+import {register} from '@/api/api.js'
 
 export default {
   name: 'Register',
@@ -71,15 +78,19 @@ export default {
         cpf: "",
         phone: "",
         password: "",
-        password_confirm: ""
-      }
+      },
+      password_confirm: "",
+      onSubmitSuccess: false,
+      onSubmitError: false,
+      alertMessage: "",
     }
   },
   directives: {
     mask
   },
   components: {
-    Error
+    Error,
+    BaseAlert,
   },
   validations: {
     form: {
@@ -109,26 +120,61 @@ export default {
       },
       phone: {
         required,
-        minLength: minLength(10),
-        maxLength: maxLength(10),
+        minLength: minLength(14),
       },
       password: {
         required,
         minLength: minLength(6),
         maxLength: maxLength(50)
       },
-      password_confirm: {
-        required,
-        minLength: minLength(6),
-        maxLength: maxLength(50),
-        sameAs: sameAs('password'),
-      }
+    },
+    password_confirm: {
+      required,
+      sameAs: sameAs(function () {return this.form.password}),
     }
   },
+  methods: {
+    onSubmit() {
+      this.onSubmitSuccess = false
+      this.onSubmitError = false
+      this.alertMessage = ""
+      
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+      register(this.form).then((response) => {
+        if(response.status == 201) {
+          this.onSubmitSuccess = true
+          this.alertMessage = "Cadastrado realizado com sucesso. Redirecionando para o Login..."
+          setTimeout(() => {
+            this.$router.push('/login')
+          }, 2000)
+        }
+      }).catch(() => {
+        this.onSubmitError = true
+        this.alertMessage = "Erro ao realizar o cadastro"
+        setTimeout(() => {
+          this.onSubmitError = false
+          this.alertMessage = ""
+        }, 3000)
+      })
+    }
+  },
+  computed: {
+    alertClass() {
+      return {
+        'alert-danger': this.onSubmitError,
+        'alert-success': this.onSubmitSuccess,
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/_variables';
+
 .title {
   display: block;
   margin: 15px 0 25px 0;
@@ -138,21 +184,22 @@ export default {
   .register-container {
     width: 80vw;
   }
-  .register-form-group {
+.register-form-group {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   text-align: left;
-  background-color:white;
+  background-color: $white-color;
   padding: 20px;
   border-radius: 5px;
-  }
+}
   .register-form-group-item {
     width: 100%;
-  }
-  .register-form-group-item input {
-    width: 90%;
-    margin-bottom: 1rem;
+
+    & input {
+      width: 90%;
+      margin-bottom: 1rem;
+    }
   }
 
   @media screen and (min-width:768px) {

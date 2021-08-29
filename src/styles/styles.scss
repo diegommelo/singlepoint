@@ -1,6 +1,4 @@
-$primary-color: #1e40af;
-$background-color: #f5f5f5;
-$error-color: #ff0000;
+@import "@/styles/_variables.scss";
 
 html {
   background-color: $background-color;
@@ -12,6 +10,9 @@ label {
 a {
   color: $primary-color;
   text-decoration: none;
+}
+input {
+  font-size: 1.1rem;
 }
 .container {
   margin: 0 auto;
