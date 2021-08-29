@@ -5,35 +5,38 @@
       <div class="register-form-group">
         <div class="register-form-group-item">
           <label for="register-name">Nome</label>
-          <input type="text" class="input" id="register-name" placeholder="">
+          <input type="text" class="input" id="register-name" v-model.trim="$v.form.name.$model">
+          <Error :validation="$v.form.name.required" v-if="$v.form.name.$dirty">Campo obrigatório</Error>
+          <Error :validation="$v.form.name.minLength">Nome precisa ter pelo menos {{$v.form.name.$params.minLength.min}} caracteres</Error>
         </div>
         <div class="register-form-group-item">
           <label for="register-lastname">Sobrenome</label>
-          <input type="text" class="input" id="register-lastname" placeholder="">
+          <input type="text" class="input" id="register-lastname" v-model.trim="$v.form.lastname.$model">
+          <Error :validation="$v.form.lastname.required" v-if="$v.form.lastname.$dirty">Campo obrigatório</Error>
         </div>
         <div class="register-form-group-item">
           <label for="register-username">Nome de usuário</label>
-          <input type="text" class="input" id="register-username" placeholder="">
+          <input type="text" class="input" id="register-username">
         </div>
         <div class="register-form-group-item">
           <label for="register-email">Email</label>
-          <input type="email" class="input" id="register-email" placeholder="">
+          <input type="email" class="input" id="register-email">
         </div>
         <div class="register-form-group-item">
           <label for="register-cpf">CPF</label>
-          <input type="text" class="input" id="register-cpf" placeholder="">
+          <input type="text" class="input" id="register-cpf">
         </div>
         <div class="register-form-group-item">
           <label for="register-phone">Telefone</label>
-          <input type="text" class="input" id="register-phone" placeholder="">
+          <input type="text" class="input" id="register-phone">
         </div>
         <div class="register-form-group-item">
           <label for="register-password">Senha</label>
-          <input type="password" class="input" id="register-password" placeholder="">
+          <input type="password" class="input" id="register-password">
         </div>
         <div class="register-form-group-item">
           <label for="register-password-confirm">Confirmar senha</label>
-          <input type="password" class="input" id="register-password-confirm" placeholder="">
+          <input type="password" class="input" id="register-password-confirm">
         </div>
       </div>
         <button type="submit" class="button is-primary">Criar Conta</button>
@@ -42,20 +45,69 @@
 </template>
 
 <script>
+import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
+import Error from '@/components/Error.vue'
 
 export default {
   name: 'Register',
   data () {
     return {
       form: {
-        name: '',
-        lastname: '',
-        username: '',
-        email: '',
-        cpf: '',
-        phone: '',
-        password: '',
-        password_confirm: ''
+        name: "",
+        lastname: "",
+        username: "",
+        email: "",
+        cpf: "",
+        phone: "",
+        password: "",
+        password_confirm: ""
+      }
+    }
+  },
+  components: {
+    Error
+  },
+  validations: {
+    form: {
+      name: {
+        required,
+        minLength: minLength(2),
+        maxLength: maxLength(50)
+      },
+      lastname: {
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(50),
+      },
+      username: {
+        required,
+        minLength: minLength(3),
+        maxLength: maxLength(50),
+      },
+      email: {
+        required,
+        email
+      },
+      cpf: {
+        required,
+        minLength: minLength(11),
+        maxLength: maxLength(11),
+      },
+      phone: {
+        required,
+        minLength: minLength(10),
+        maxLength: maxLength(10),
+      },
+      password: {
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(50)
+      },
+      password_confirm: {
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(50),
+        sameAs: sameAs('password'),
       }
     }
   },
