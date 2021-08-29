@@ -2,16 +2,20 @@
   <div class="login-container">
     <Logo class="logo" />
     <form>
-      <div class="form-group">
+      <div class="login-form-group">
         <label for="login-username">Usuário</label>
         <input id="login-username" type="text" v-model="form.username" class="input" />
         <label for="login-password">Senha</label>
         <input id="login-password" type="password" v-model="form.password" class="input" />
-        <button type="button" @click="login" class="primary-button">
+        <button type="button" @click="login" class="button is-primary">
           Entrar
         </button>
       </div>
     </form>
+    <div class="login-form-footer">
+      <p><a href="#">Esqueceu a senha?</a></p>
+      <p>Ainda não tem uma conta? <router-link to="/register">Registre-se</router-link></p>
+    </div>
   </div>
 </template>
 
@@ -42,29 +46,50 @@ export default {
 
 <style lang="scss" scoped>
 .login-container {
+  margin-top: 40px;
+}
+.login-form-group {
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 60vh;
+  text-align: left;
+  width: 60vw;
+  background-color:white;
+  padding: 20px;
+  border-radius: 5px;
 }
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.login-form-group input {
+  margin-bottom: 30px;
 }
-.form-group button {
-  margin-top: 15px;
+.login-form-footer {
+  margin-top: 30px;
 }
 .logo {
-  margin-bottom: 5vh;
-  width: 70vw;
+  margin-bottom: 4vh;
+  width: 55vw;
 }
 
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 768px) {
+  .login-form-group {
+    width: 40vw;
+  }
   .logo {
-    width: 20vw;
+    width: 30vw;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .login-form-group {
+    width: 32vw;
+  }
+  .logo {
+    width: 15vw;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .login-form-group {
+    width: 26vw;
   }
 }
 </style>
