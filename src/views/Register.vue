@@ -1,32 +1,31 @@
 <template>
-  <div class="container page-container">
-    <TheSpinner v-if="isLoading" />
-    <transition name="fade">
-      <BaseAlert :class="alertClass" v-if="alertMessage">{{
-        alertMessage
-      }}</BaseAlert>
-    </transition>
-    <span class="title">Cadastre-se em nossa plataforma</span>
-    <form @submit.prevent="onSubmit">
-      <FormUserData :$v="$v" />
-      <button type="submit" class="button is-primary">Criar Conta</button>
-    </form>
-    <div class="register-form-footer">
-      <p>
-        Ao criar uma conta, você concorda com nossos
-        <a href="#">Termos de Uso</a> e <a href="#">Políticas de Privacidade</a>
-      </p>
-    </div>
-  </div>
+  <BaseLayout :isLoading="isLoading" :alertClass="alertClass" :alertMessage="alertMessage">
+    <template v-slot:title>
+      <span class="title">Cadastre-se em nossa plataforma</span>
+    </template>
+    <template v-slot:content>
+      <form @submit.prevent="onSubmit">
+        <FormUserData :$v="$v" />
+        <button type="submit" class="button is-primary">Criar Conta</button>
+      </form>
+    </template>
+    <template v-slot:footer>
+      <div class="register-form-footer">
+        <p>
+          Ao criar uma conta, você concorda com nossos
+          <a href="#">Termos de Uso</a> e <a href="#">Políticas de Privacidade</a>
+        </p>
+      </div>
+    </template>
+  </BaseLayout>
 </template>
 
 <script>
-import BaseAlert from "@/components/BaseAlert";
-import TheSpinner from "@/components/TheSpinner";
+import pageMixin from "@/mixins/pageMixin";
+import BaseLayout from "@/views/Layouts/BaseLayout";
 import FormUserData from "@/components/FormUserData";
 import formRegister from "@/validations/formRegister";
 import { mapActions } from "vuex";
-// import {register} from '@/api/api.js'
 
 export default {
   name: "Register",
@@ -41,23 +40,16 @@ export default {
         phone: "",
         password: "",
       },
-      password_confirm: "",
-      onSubmitSuccess: false,
-      onSubmitError: false,
-      alertMessage: "",
-      isLoading: false,
     };
   },
+  mixins: [pageMixin],
   validations: { ...formRegister },
   components: {
-    BaseAlert,
-    TheSpinner,
+    BaseLayout,
     FormUserData,
   },
   methods: {
-    ...mapActions({
-      register: "register",
-    }),
+    ...mapActions(["register"]),
     onSubmit() {
       this.onSubmitSuccess = false;
       this.onSubmitError = false;
@@ -91,15 +83,5 @@ export default {
         });
     },
   },
-  computed: {
-    alertClass() {
-      return {
-        "alert-danger": this.onSubmitError,
-        "alert-success": this.onSubmitSuccess,
-      };
-    },
-  },
 };
 </script>
-
-<style lang="scss"></style>

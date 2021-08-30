@@ -1,53 +1,36 @@
 <template>
-  <div class="container page-container">
-    <TheSpinner v-if="isLoading" />
-    <transition name="fade">
-      <BaseAlert :class="alertClass" v-if="alertMessage">{{
-        alertMessage
-      }}</BaseAlert>
-    </transition>
-    <span class="title">Edite seu perfil</span>
-    <form @submit.prevent="onSubmit">
-      <FormUserData :$v="$v" />
-      <button type="submit" class="button is-primary">Salvar</button>
-    </form>
-  </div>
+  <BaseLayout :isLoading="isLoading" :alertClass="alertClass" :alertMessage="alertMessage">
+    <template v-slot:title>
+      <span class="title">Edite seu perfil</span>
+    </template>
+    <template v-slot:content>
+      <form @submit.prevent="onSubmit">
+        <FormUserData :$v="$v" />
+        <button type="submit" class="button is-primary">Salvar</button>
+      </form>
+    </template>
+  </BaseLayout>
 </template>
 
 <script>
-import BaseAlert from "@/components/BaseAlert";
-import TheSpinner from "@/components/TheSpinner";
+import BaseLayout from "@/views/Layouts/BaseLayout";
 import FormUserData from "@/components/FormUserData";
 import formRegister from "@/validations/formRegister";
+import pageMixin from '@/mixins/pageMixin';
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Profile",
   components: {
-    BaseAlert,
-    TheSpinner,
+    BaseLayout,
     FormUserData,
   },
-  data() {
-    return {
-      password_confirm: "",
-      isLoading: false,
-      alertMessage: "",
-      onSubmitSuccess: false,
-      onSubmitError: false,
-    };
-  },
+  mixins: [pageMixin],
   validations: { ...formRegister },
   computed: {
     ...mapGetters({
       form: "getUser",
     }),
-    alertClass() {
-      return {
-        "alert-danger": this.onSubmitError,
-        "alert-success": this.onSubmitSuccess,
-      };
-    },
   },
   methods: {
     ...mapActions({
@@ -88,5 +71,3 @@ export default {
   },
 };
 </script>
-
-<style></style>
