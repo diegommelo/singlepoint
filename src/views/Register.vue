@@ -1,5 +1,6 @@
 <template>
   <div class="container register-container">
+    <h2 v-if="isLoading">Carregando...</h2>
     <transition name="fade">
       <BaseAlert :class="alertClass" v-if="alertMessage">{{alertMessage}}</BaseAlert>
     </transition>
@@ -9,48 +10,48 @@
         <div class="register-form-group-item">
           <label for="register-name">Nome</label>
           <input type="text" class="input" id="register-name" v-model.trim="$v.form.name.$model">
-          <Error :validation="$v.form.name.required" v-if="$v.form.name.$dirty">Campo obrigatório</Error>
-          <Error :validation="$v.form.name.minLength">Nome precisa ter pelo menos {{$v.form.name.$params.minLength.min}} caracteres</Error>
+          <BaseError :validation="$v.form.name.required" v-if="$v.form.name.$dirty">Campo obrigatório</BaseError>
+          <BaseError :validation="$v.form.name.minLength">Nome precisa ter pelo menos {{$v.form.name.$params.minLength.min}} caracteres</BaseError>
         </div>
         <div class="register-form-group-item">
           <label for="register-lastname">Sobrenome</label>
           <input type="text" class="input" id="register-lastname" v-model.trim="$v.form.lastname.$model">
-          <Error :validation="$v.form.lastname.required" v-if="$v.form.lastname.$dirty">Campo obrigatório</Error>
+          <BaseError :validation="$v.form.lastname.required" v-if="$v.form.lastname.$dirty">Campo obrigatório</BaseError>
         </div>
         <div class="register-form-group-item">
           <label for="register-username">Nome de usuário</label>
           <input type="text" class="input" id="register-username" v-model="$v.form.username.$model">
-          <Error :validation="$v.form.username.required" v-if="$v.form.username.$dirty">Campo obrigatório</Error>
-          <Error :validation="$v.form.username.minLength">Nome de usuário inválido</Error>          
+          <BaseError :validation="$v.form.username.required" v-if="$v.form.username.$dirty">Campo obrigatório</BaseError>
+          <BaseError :validation="$v.form.username.minLength">Nome de usuário inválido</BaseError>          
         </div>
         <div class="register-form-group-item">
           <label for="register-email">E-mail</label>
           <input type="email" class="input" id="register-email" v-model="$v.form.email.$model">
-          <Error :validation="$v.form.email.required" v-if="$v.form.email.$dirty">Campo obrigatório</Error>
-          <Error :validation="$v.form.email.email" v-if="$v.form.email.$dirty">E-mail inválido</Error>
+          <BaseError :validation="$v.form.email.required" v-if="$v.form.email.$dirty">Campo obrigatório</BaseError>
+          <BaseError :validation="$v.form.email.email" v-if="$v.form.email.$dirty">E-mail inválido</BaseError>
         </div>
         <div class="register-form-group-item">
           <label for="register-cpf">CPF</label>
           <input type="text" class="input" id="register-cpf" v-model="$v.form.cpf.$model" v-mask="['###.###.###-##']" />
-          <Error :validation="$v.form.cpf.required" v-if="$v.form.cpf.$dirty">Campo obrigatório</Error>
-          <Error :validation="$v.form.cpf.minLength">CPF Inválido</Error>
+          <BaseError :validation="$v.form.cpf.required" v-if="$v.form.cpf.$dirty">Campo obrigatório</BaseError>
+          <BaseError :validation="$v.form.cpf.minLength">CPF Inválido</BaseError>
         </div>
         <div class="register-form-group-item">
           <label for="register-phone">Telefone</label>
           <input type="text" class="input" id="register-phone" v-model="$v.form.phone.$model" v-mask="['(##) #####-####', '(##) ####-####']" />
-          <Error :validation="$v.form.phone.required" v-if="$v.form.phone.$dirty">Campo Obrigatório</Error>
-          <Error :validation="$v.form.phone.minLength">Telefone inválido</Error>
+          <BaseError :validation="$v.form.phone.required" v-if="$v.form.phone.$dirty">Campo Obrigatório</BaseError>
+          <BaseError :validation="$v.form.phone.minLength">Telefone inválido</BaseError>
         </div>
         <div class="register-form-group-item">
           <label for="register-password">Senha</label>
           <input type="password" class="input" id="register-password" v-model="$v.form.password.$model" />
-          <Error :validation="$v.form.password.required" v-if="$v.form.password.$dirty">Campo obrigatório</Error>
-          <Error :validation="$v.form.password.minLength">A senha deve ter no mínimo {{$v.form.password.$params.minLength.min}} caracteres</Error>
+          <BaseError :validation="$v.form.password.required" v-if="$v.form.password.$dirty">Campo obrigatório</BaseError>
+          <BaseError :validation="$v.form.password.minLength">A senha deve ter no mínimo {{$v.form.password.$params.minLength.min}} caracteres</BaseError>
         </div>
         <div class="register-form-group-item">
           <label for="register-password-confirm">Confirmar senha</label>
           <input type="password" class="input" id="register-password-confirm" v-model="$v.password_confirm.$model" />
-          <Error :validation="$v.password_confirm.sameAs" v-if="$v.password_confirm.$dirty">As senhas devem ser iguais</Error>
+          <BaseError :validation="$v.password_confirm.sameAs" v-if="$v.password_confirm.$dirty">As senhas devem ser iguais</BaseError>
         </div>
       </div>
       <button type="submit" class="button is-primary">Criar Conta</button>
@@ -63,10 +64,10 @@
 
 <script>
 import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
-import Error from '@/components/Error.vue'
+import BaseError from '@/components/BaseError.vue'
 import BaseAlert from '@/components/BaseAlert.vue'
 import {mask} from 'vue-the-mask'
-import {register} from '@/api/api.js'
+// import {register} from '@/api/api.js'
 
 export default {
   name: 'Register',
@@ -85,13 +86,14 @@ export default {
       onSubmitSuccess: false,
       onSubmitError: false,
       alertMessage: "",
+      isLoading: false,
     }
   },
   directives: {
     mask
   },
   components: {
-    Error,
+    BaseError,
     BaseAlert,
   },
   validations: {
@@ -145,14 +147,15 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      register(this.form).then((response) => {
-        if(response.status == 201) {
+      let payload = {user: this.$v.form.$model, resolver: true}
+      this.isLoading = true
+      this.$store.dispatch('register', payload).then(() => {
           this.onSubmitSuccess = true
           this.alertMessage = "Cadastrado realizado com sucesso. Redirecionando para o Login..."
+          this.isLoading = false
           setTimeout(() => {
             this.$router.push('/login')
           }, 2000)
-        }
       }).catch(() => {
         this.onSubmitError = true
         this.alertMessage = "Erro ao realizar o cadastro"

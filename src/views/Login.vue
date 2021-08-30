@@ -1,11 +1,16 @@
 <template>
   <div class="container login-container">
+    <transition name="fade">
+      <BaseAlert class="alert-danger" v-if="onLoginError">{{alertMessage}}</BaseAlert>
+    </transition>    
     <form>
       <div class="login-form-group">
         <label for="login-username">Usuário</label>
         <input id="login-username" type="text" v-model="form.username" class="input" />
+        <BaseError :validation="$v.form.username.required" v-if="$v.form.username.$dirty">Informe o nome de usuário</BaseError>
         <label for="login-password">Senha</label>
         <input id="login-password" type="password" v-model="form.password" class="input" />
+        <BaseError :validation="$v.form.password.required" v-if="$v.form.password.$dirty">Informe a senha</BaseError>
         <button type="button" @click="login" class="button is-primary">
           Entrar
         </button>
@@ -19,6 +24,9 @@
 </template>
 
 <script>
+import BaseAlert from '@/components/BaseAlert'
+import BaseError from '@/components/BaseError.vue'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: "Login",
@@ -28,12 +36,49 @@ export default {
         username: "",
         password: "",
       },
+      alertMessage: "",
+      onLoginError: false,
     }
+  },
+  validations: {
+    form: {
+      username: {
+        required,
+      },
+      password: {
+        required,
+      },
+    },
+  },
+  components: {
+    BaseAlert,
+    BaseError,
   },
   methods: {
     login() {
-      // this.$store.dispatch("login", this.form);
-      console.log('user: '+this.form.username+' pass: '+this.form.password);
+      this.onLoginError = false;
+      this.alertMessage = "";
+
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        return
+      }
+
+      let payload = {
+        form: this.form,
+        resolver: true
+      }
+      
+      this.$store.dispatch('login', payload).then(resp => {
+        this.$router.push(`/profile/${resp.id}`)
+      }).catch(() => {
+        this.onLoginError = true
+        this.alertMessage = "Nome de usuário ou senha incorreto"
+        setTimeout(() => {
+          this.onLoginError = false
+          this.alertMessage = ""
+        }, 3000)        
+      })
     },
   },
 };
@@ -52,7 +97,7 @@ export default {
   border-radius: 5px;
 }
 .login-form-group input {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .login-form-footer {
   margin-top: 30px;
