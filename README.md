@@ -1,34 +1,38 @@
-# singlepoint
+<h2 align="center">Front-end Challenge - Single Point Technology</h2>
 
-## Project setup
-```
-npm install
-```
+<h3>A simple frontend to register, login and edit profila data</h3>
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+---
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Overview
 
-### Run your unit tests
-```
-npm run test:unit
-```
+A simple frontend to register, login and edit profila data
 
-### Run your end-to-end tests
-```
-npm run test:e2e
+- **[Running](#Running)**
+- **[Technologies](#Technologies)**
+
+## Running
+
+**ATTENTION:** You need Vue-CLI to run it.
+
+```shell
+$ git clone https://github.com/diegommelo/singlepoint
+
+$ npm install
+
+$ npm run serve
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Technologies
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- [Vue.js](https://vuejs.org/)
+- [Vuex](https://vuex.vuejs.org/)
+- [Vue Router](https://router.vuejs.org/)
+- [Vuelidate](https://vuelidate.js.org/)
+- [Axios](https://github.com/axios/axios)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+
+## Author
+
+- **Diego Melo** - [GitHub](https://github.com/diegommelo)
