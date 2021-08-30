@@ -28,7 +28,7 @@
 import BaseAlert from '@/components/BaseAlert'
 import BaseError from '@/components/BaseError.vue'
 import TheSpinner from '@/components/TheSpinner.vue'
-import { required } from 'vuelidate/lib/validators'
+import formLogin from '@/validations/formLogin'
 
 export default {
   name: "Login",
@@ -43,16 +43,7 @@ export default {
       isLoading: false
     }
   },
-  validations: {
-    form: {
-      username: {
-        required,
-      },
-      password: {
-        required,
-      },
-    },
-  },
+  validations: { ...formLogin },
   components: {
     BaseAlert,
     BaseError,
@@ -79,7 +70,7 @@ export default {
       }).catch(() => {
         this.isLoading = false
         this.onLoginError = true
-        this.alertMessage = "Nome de usuário ou senha incorreto"
+        this.alertMessage = "Usuário ou senha incorretos"
         setTimeout(() => {
           this.onLoginError = false
           this.alertMessage = ""

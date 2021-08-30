@@ -20,26 +20,26 @@
         </div>
         <div class="register-form-group-item">
           <label for="register-username">Nome de usuário</label>
-          <input type="text" class="input" id="register-username" v-model="$v.form.username.$model">
+          <input type="text" class="input" id="register-username" v-model.trim="$v.form.username.$model">
           <BaseError :validation="$v.form.username.required" v-if="$v.form.username.$dirty">Campo obrigatório</BaseError>
           <BaseError :validation="$v.form.username.minLength">Nome de usuário inválido</BaseError>          
         </div>
         <div class="register-form-group-item">
           <label for="register-email">E-mail</label>
-          <input type="email" class="input" id="register-email" v-model="$v.form.email.$model">
+          <input type="email" class="input" id="register-email" v-model.lazy="$v.form.email.$model">
           <BaseError :validation="$v.form.email.required" v-if="$v.form.email.$dirty">Campo obrigatório</BaseError>
           <BaseError :validation="$v.form.email.email" v-if="$v.form.email.$dirty">E-mail inválido</BaseError>
         </div>
         <div class="register-form-group-item">
           <label for="register-cpf">CPF</label>
-          <input type="text" class="input" id="register-cpf" v-model="$v.form.cpf.$model" v-mask="['###.###.###-##']" />
+          <input type="text" class="input" id="register-cpf" v-model.lazy="$v.form.cpf.$model" v-mask="['###.###.###-##']" />
           <BaseError :validation="$v.form.cpf.required" v-if="$v.form.cpf.$dirty">Campo obrigatório</BaseError>
           <BaseError :validation="$v.form.cpf.minLength">CPF Inválido</BaseError>
         </div>
         <div class="register-form-group-item">
           <label for="register-phone">Telefone</label>
-          <input type="text" class="input" id="register-phone" v-model="$v.form.phone.$model" v-mask="['(##) #####-####', '(##) ####-####']" />
-          <BaseError :validation="$v.form.phone.required" v-if="$v.form.phone.$dirty">Campo Obrigatório</BaseError>
+          <input type="text" class="input" id="register-phone" v-model.lazy="$v.form.phone.$model" v-mask="['(##) #####-####', '(##) ####-####']" />
+          <BaseError :validation="$v.form.phone.required" v-if="$v.form.phone.$dirty">Campo obrigatório</BaseError>
           <BaseError :validation="$v.form.phone.minLength">Telefone inválido</BaseError>
         </div>
         <div class="register-form-group-item">
@@ -63,11 +63,11 @@
 </template>
 
 <script>
-import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 import BaseError from '@/components/BaseError.vue'
 import BaseAlert from '@/components/BaseAlert.vue'
 import TheSpinner from '@/components/TheSpinner.vue'
 import {mask} from 'vue-the-mask'
+import formRegister from '@/validations/formRegister'
 // import {register} from '@/api/api.js'
 
 export default {
@@ -90,6 +90,7 @@ export default {
       isLoading: false,
     }
   },
+  validations: { ...formRegister },
   directives: {
     mask
   },
@@ -97,47 +98,6 @@ export default {
     BaseError,
     BaseAlert,
     TheSpinner
-  },
-  validations: {
-    form: {
-      name: {
-        required,
-        minLength: minLength(2),
-        maxLength: maxLength(50)
-      },
-      lastname: {
-        required,
-        minLength: minLength(1),
-        maxLength: maxLength(50),
-      },
-      username: {
-        required,
-        minLength: minLength(2),
-        maxLength: maxLength(50),
-      },
-      email: {
-        required,
-        email
-      },
-      cpf: {
-        required,
-        minLength: minLength(14),
-        maxLength: maxLength(14),
-      },
-      phone: {
-        required,
-        minLength: minLength(14),
-      },
-      password: {
-        required,
-        minLength: minLength(6),
-        maxLength: maxLength(50)
-      },
-    },
-    password_confirm: {
-      required,
-      sameAs: sameAs(function () {return this.form.password}),
-    }
   },
   methods: {
     onSubmit() {
@@ -164,7 +124,7 @@ export default {
         setTimeout(() => {
           this.onSubmitError = false
           this.alertMessage = ""
-        }, 3000)
+        }, 2500)
       })
     }
   },
