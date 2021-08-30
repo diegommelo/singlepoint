@@ -12,7 +12,7 @@
         <label for="login-password">Senha</label>
         <input id="login-password" type="password" v-model="form.password" class="input" />
         <BaseError :validation="$v.form.password.required" v-if="$v.form.password.$dirty">Informe a senha</BaseError>
-        <button type="button" @click="login" class="button is-primary">
+        <button type="button" @click="onSubmit" class="button is-primary">
           Entrar
         </button>
       </div>
@@ -29,6 +29,7 @@ import BaseAlert from '@/components/BaseAlert'
 import BaseError from '@/components/BaseError.vue'
 import TheSpinner from '@/components/TheSpinner.vue'
 import formLogin from '@/validations/formLogin'
+import { mapActions } from 'vuex'
 
 export default {
   name: "Login",
@@ -50,13 +51,15 @@ export default {
     TheSpinner,
   },
   methods: {
-    login() {
+    ...mapActions(['login']),
+    onSubmit() {
       this.onLoginError = false;
       this.alertMessage = "";
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
       }
+      //Parâmetro "resolver" é usado para testar a resposta da API
 
       let payload = {
         form: this.form,
@@ -64,7 +67,7 @@ export default {
       }
       this.isLoading = true
       
-      this.$store.dispatch('login', payload).then(resp => {
+      this.login(payload).then(resp => {
         this.isLoading = false
         this.$router.push(`/profile/${resp.id}`)
       }).catch(() => {

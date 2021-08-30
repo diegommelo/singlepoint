@@ -44,6 +44,32 @@ input {
   margin-bottom: 15px;
   font-size: 0.9rem;
 }
+.title {
+  display: block;
+  margin: 15px 0 25px 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.page-container {
+  width: 80vw;
+}
+@media screen and (min-width: 768px) {
+  .page-container {
+    width: 60vw;
+  }
+}
+@media screen and (min-width: 992px) {
+  .page-container {
+    width: 35vw;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .page-container {
+    width: 40vw;
+  }
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s;
