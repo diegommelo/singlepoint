@@ -16,7 +16,8 @@ A simple frontend to register, login and edit profila data
 **ATTENTION:** You need Vue-CLI to run it.
 
 ```shell
-$ git clone https://github.com/diegommelo/singlepoint
+
+$ git clone https://github.com/diegommelo/singlepoint .
 
 $ npm install
 
