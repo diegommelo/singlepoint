@@ -13,13 +13,13 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
-    meta: {guest: true}
+    meta: { guest: true },
   },
   {
     path: "/profile/:id",
     name: "Profile",
     component: () => import("../views/Dashboard/Profile.vue"),
-    meta: {requiresAuth: true},
+    meta: { requiresAuth: true },
   },
   {
     path: "/register",
@@ -29,12 +29,12 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Register.vue"),
-    meta: {guest: true}
+    meta: { guest: true },
   },
   {
     path: "*",
     redirect: "/login",
-  }
+  },
 ];
 
 const router = new VueRouter({
@@ -57,6 +57,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-})
+});
 
 export default router;

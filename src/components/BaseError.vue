@@ -9,12 +9,10 @@ export default {
   props: {
     validation: {
       type: Boolean,
-      required: true
+      required: true,
     },
-  }
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

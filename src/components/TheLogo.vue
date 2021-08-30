@@ -4,8 +4,8 @@
 
 <script>
 export default {
-  name: 'Logo',
-}
+  name: "Logo",
+};
 </script>
 
 <style lang="scss">
@@ -29,6 +29,6 @@ export default {
 @media screen and (min-width: 1200px) {
   .logo {
     width: 15vw;
-  }  
+  }
 }
 </style>

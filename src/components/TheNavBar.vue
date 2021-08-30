@@ -1,38 +1,41 @@
 <template>
   <div class="nav">
     <span v-if="isLoggedIn">
-      <router-link :to='{name: "Profile", params: {id: userId}}'>Perfil</router-link> | 
+      <router-link :to="{ name: 'Profile', params: { id: userId } }"
+        >Perfil</router-link
+      >
+      |
       <a @click="logout">Logout</a>
     </span>
     <span v-else>
       <router-link to="/login">Login</router-link> |
       <router-link to="/register">Cadastro</router-link>
     </span>
-  </div>  
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'TheNavBar',
+  name: "TheNavBar",
   computed: {
     isLoggedIn() {
-      return this.$store.getters.isAuthenticated
+      return this.$store.getters.isAuthenticated;
     },
     userId() {
-      return this.$store.getters.getUserId
-    }    
+      return this.$store.getters.getUserId;
+    },
   },
   methods: {
     logout() {
-      this.$store.dispatch('logout')
-      this.$router.push('/')
-    }
-  }
-}
+      this.$store.dispatch("logout");
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-@import '@/styles/_variables';
+@import "@/styles/_variables";
 
 .nav {
   padding: 30px;

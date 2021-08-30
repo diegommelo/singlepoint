@@ -2,13 +2,12 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import Vuelidate from 'vuelidate'
-import UUID from 'vue-uuid'
-
+import Vuelidate from "vuelidate";
+import UUID from "vue-uuid";
 
 Vue.config.productionTip = false;
 
-Vue.use(Vuelidate, UUID)
+Vue.use(Vuelidate, UUID);
 
 new Vue({
   router,

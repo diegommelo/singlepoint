@@ -1,4 +1,4 @@
-import { uuid } from 'vue-uuid';
+import { uuid } from "vue-uuid";
 
 export default {
   state: {
@@ -34,10 +34,10 @@ export default {
     },
   },
   actions: {
-    register({commit}, payload) {
+    register({ commit }, payload) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          if(!payload.resolver) {
+          if (!payload.resolver) {
             reject(new Error("Error"));
           }
           let user_id = Math.floor(Math.random() * 10);
@@ -45,55 +45,58 @@ export default {
           commit("setUserId", user_id);
           resolve(payload.user);
         }, 2000);
-        });
+      });
     },
     login({ commit, state }, payload) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          if(!payload.resolver) {
+          if (!payload.resolver) {
             reject(new Error("Error"));
           }
-          if(state.user.username == payload.form.username && state.user.password == payload.form.password) {
+          if (
+            state.user.username == payload.form.username &&
+            state.user.password == payload.form.password
+          ) {
             let userpayload = {
               userid: state.user.id,
               username: state.user.username,
-              token: uuid.v1()
-            }
+              token: uuid.v1(),
+            };
             commit("setLogin", userpayload);
             commit("setUserToken", userpayload.token);
-            resolve({id:state.user.id, token: userpayload.token});
+            resolve({ id: state.user.id, token: userpayload.token });
           } else {
             reject(new Error());
           }
         }, 1000);
       });
-     },
+    },
     logout({ commit }) {
       commit("setLogin", {
-        userid:"",
-        username:"",
+        userid: "",
+        username: "",
         token: null,
       });
     },
     edit({ commit }, payload) {
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          if(!payload.resolver) {
+          if (!payload.resolver) {
             reject(new Error("Error"));
           }
           commit("setUser", payload.user);
           resolve(payload.user);
         }, 1000);
       });
-    }
+    },
   },
   getters: {
-    isAuthenticated: state => !!state.login.token,
-    getUser: state => {
+    isAuthenticated: (state) => !!state.login.token,
+    getUser: (state) => {
       return state.user;
     },
-    getUserId: state => {
+    getUserId: (state) => {
       return state.login.userid;
-    }
-  }
-}
+    },
+  },
+};

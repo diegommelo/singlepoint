@@ -1,53 +1,51 @@
 <template>
-  <input 
-    class="input" 
-    :type="type" 
-    :id="id" 
-    :placeholder="placeholder" 
+  <input
+    class="input"
+    :type="type"
+    :id="id"
+    :placeholder="placeholder"
     :value="value"
     @input="onInput"
-    />
+  />
 </template>
 
 <script>
 export default {
-  name: 'BaseInput',
+  name: "BaseInput",
   props: {
     value: {
       type: String,
-      default: ''
+      default: "",
     },
     placeholder: {
       type: String,
-      default: ''
+      default: "",
     },
     type: {
       type: String,
-      default: 'text'
+      default: "text",
     },
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     id: {
       type: String,
-      default: ''
+      default: "",
     },
   },
   data() {
     return {
-      inputValue: this.value
-    }
+      inputValue: this.value,
+    };
   },
   methods: {
     onInput(e) {
-      this.inputValue = e.target.value
-      this.$emit('input', this.inputValue)
-    }
-  }
-}
+      this.inputValue = e.target.value;
+      this.$emit("input", this.inputValue);
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

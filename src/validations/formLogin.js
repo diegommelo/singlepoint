@@ -1,4 +1,4 @@
-import required from 'vuelidate/lib/validators/required'
+import required from "vuelidate/lib/validators/required";
 
 export default {
   form: {
@@ -8,5 +8,5 @@ export default {
     password: {
       required,
     },
-  }  
-}
+  },
+};
