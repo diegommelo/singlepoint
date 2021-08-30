@@ -31,6 +31,10 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/Register.vue"),
     meta: {guest: true}
   },
+  {
+    path: "*",
+    redirect: "/login",
+  }
 ];
 
 const router = new VueRouter({
