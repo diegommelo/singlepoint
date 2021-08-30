@@ -1,5 +1,6 @@
 <template>
   <div class="container login-container">
+    <TheSpinner v-if="isLoading" />
     <transition name="fade">
       <BaseAlert class="alert-danger" v-if="onLoginError">{{alertMessage}}</BaseAlert>
     </transition>    
@@ -26,6 +27,7 @@
 <script>
 import BaseAlert from '@/components/BaseAlert'
 import BaseError from '@/components/BaseError.vue'
+import TheSpinner from '@/components/TheSpinner.vue'
 import { required } from 'vuelidate/lib/validators'
 
 export default {
@@ -38,6 +40,7 @@ export default {
       },
       alertMessage: "",
       onLoginError: false,
+      isLoading: false
     }
   },
   validations: {
@@ -53,12 +56,12 @@ export default {
   components: {
     BaseAlert,
     BaseError,
+    TheSpinner,
   },
   methods: {
     login() {
       this.onLoginError = false;
       this.alertMessage = "";
-
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
@@ -68,10 +71,13 @@ export default {
         form: this.form,
         resolver: true
       }
+      this.isLoading = true
       
       this.$store.dispatch('login', payload).then(resp => {
+        this.isLoading = false
         this.$router.push(`/profile/${resp.id}`)
       }).catch(() => {
+        this.isLoading = false
         this.onLoginError = true
         this.alertMessage = "Nome de usuário ou senha incorreto"
         setTimeout(() => {

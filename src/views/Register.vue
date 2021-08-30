@@ -1,6 +1,6 @@
 <template>
   <div class="container register-container">
-    <h2 v-if="isLoading">Carregando...</h2>
+    <TheSpinner v-if="isLoading" />
     <transition name="fade">
       <BaseAlert :class="alertClass" v-if="alertMessage">{{alertMessage}}</BaseAlert>
     </transition>
@@ -66,6 +66,7 @@
 import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 import BaseError from '@/components/BaseError.vue'
 import BaseAlert from '@/components/BaseAlert.vue'
+import TheSpinner from '@/components/TheSpinner.vue'
 import {mask} from 'vue-the-mask'
 // import {register} from '@/api/api.js'
 
@@ -95,6 +96,7 @@ export default {
   components: {
     BaseError,
     BaseAlert,
+    TheSpinner
   },
   validations: {
     form: {

@@ -16,8 +16,8 @@ export default {
     login: {
       userid: "",
       username: "",
-      token: "",
-    }
+      token: null,
+    },
   },
   mutations: {
     setUser(state, user) {
@@ -61,7 +61,7 @@ export default {
             }
             commit("setLogin", userpayload);
             commit("setUserToken", userpayload.token);
-            resolve({id:state.user.id});
+            resolve({id:state.user.id, token: userpayload.token});
           } else {
             reject(new Error());
           }
@@ -69,7 +69,31 @@ export default {
       });
      },
     logout({ commit }) {
-      commit("setLogin", {});
+      commit("setLogin", {
+        userid:"",
+        username:"",
+        token: null,
+      });
+    },
+    edit({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if(!payload.resolver) {
+            reject(new Error("Error"));
+          }
+          commit("setUser", payload.user);
+          resolve(payload.user);
+        }, 1000);
+      });
     }
   },
+  getters: {
+    isAuthenticated: state => !!state.login.token,
+    getUser: state => {
+      return state.user;
+    },
+    getUserId: state => {
+      return state.login.userid;
+    }
+  }
 }
