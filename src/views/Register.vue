@@ -1,5 +1,9 @@
 <template>
-  <BaseLayout :isLoading="isLoading" :alertClass="alertClass" :alertMessage="alertMessage">
+  <BaseLayout
+    :isLoading="isLoading"
+    :alertClass="alertClass"
+    :alertMessage="alertMessage"
+  >
     <template v-slot:title>
       <span class="title">Cadastre-se em nossa plataforma</span>
     </template>
@@ -13,7 +17,8 @@
       <div class="register-form-footer">
         <p>
           Ao criar uma conta, você concorda com nossos
-          <a href="#">Termos de Uso</a> e <a href="#">Políticas de Privacidade</a>
+          <a href="#">Termos de Uso</a> e
+          <a href="#">Políticas de Privacidade</a>
         </p>
       </div>
     </template>

@@ -1,5 +1,9 @@
 <template>
-  <BaseLayout :isLoading="isLoading" :alertClass="alertClass" :alertMessage="alertMessage">
+  <BaseLayout
+    :isLoading="isLoading"
+    :alertClass="alertClass"
+    :alertMessage="alertMessage"
+  >
     <template v-slot:title>
       <span class="title">Edite seu perfil</span>
     </template>
@@ -16,7 +20,7 @@
 import BaseLayout from "@/views/Layouts/BaseLayout";
 import FormUserData from "@/components/FormUserData";
 import formRegister from "@/validations/formRegister";
-import pageMixin from '@/mixins/pageMixin';
+import pageMixin from "@/mixins/pageMixin";
 import { mapGetters, mapActions } from "vuex";
 
 export default {

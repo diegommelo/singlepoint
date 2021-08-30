@@ -17,24 +17,24 @@ import BaseAlert from "@/components/BaseAlert";
 import TheSpinner from "@/components/TheSpinner";
 
 export default {
-  name: 'BaseLayout',
+  name: "BaseLayout",
   props: {
     alertMessage: {
       type: String,
-      default: null
+      default: null,
     },
     alertClass: {
       type: Object,
-      default: null
+      default: null,
     },
     isLoading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   components: {
     BaseAlert,
     TheSpinner,
   },
-}
+};
 </script>
