@@ -10,13 +10,16 @@
 import "@/styles/styles.scss";
 import TheNavBar from "@/components/TheNavBar"
 import TheLogo from "@/components/TheLogo";
+import titleMixin from "@/mixins/titleMixin";
 
 export default {
   name: "App",
   components: {
     'Logo': TheLogo,
     'NavBar': TheNavBar
-  }
+  },
+  mixins: [titleMixin],
+  title: 'Single Point Technology'
 }
 
 </script>
